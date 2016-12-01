@@ -1,0 +1,26 @@
+{
+  "context-menu": {
+    "atom-text-editor": [
+      {
+        "label": "Toggle partical-fly",
+        "command": "partical-fly:toggle"
+      }
+    ]
+  },
+  "menu": [
+    {
+      "label": "Packages",
+      "submenu": [
+        {
+          "label": "partical-fly",
+          "submenu": [
+            {
+              "label": "Toggle",
+              "command": "partical-fly:toggle"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
