@@ -1,64 +1,13 @@
 import { PVector } from "./script/PVector";
 import { ParticalSystem } from "./ParticalSystem";
+import { Config } from "./Config";
+import { settings } from "./Config";
 
-let subscriptions = null;
-let isTogged: boolean = false;
+export let config = settings;
 
 let canvas: HTMLCanvasElement;
 let particalSystem: ParticalSystem;
-
-let conf;
-
-export let config = {
-    emitNumEveryTime: {
-        type: 'integer',
-        default: 3,
-        minimum: 1
-    },
-    rateOfAging: {
-        type: 'number',
-        default: 0.02,
-        maximum: 1
-    },
-    maxSize: {
-        type: 'number',
-        default: 10,
-        minimum: 1
-    },
-    opacity: {
-        type: 'number',
-        default: 0.6,
-        maximum: 1
-    },
-    maxInitialVelocity: {
-        type: 'object',
-        properties: {
-            x: {
-                type: 'number',
-                default: 5,
-                minimum: 0
-            },
-            y: {
-                type: 'number',
-                default: 5,
-                minimum: 0
-            }
-        }
-    },
-    wind: {
-        type: 'object',
-        properties: {
-            x: {
-                type: 'number',
-                default: 0
-            },
-            y: {
-                type: 'number',
-                default: 0
-            }
-        }
-    }
-}
+let conf: Config;
 
 export function activate(state) {
     canvas = <HTMLCanvasElement>document.createElement('canvas');
@@ -67,32 +16,30 @@ export function activate(state) {
     canvas.classList.add('partical-fly');
 
     document.body.appendChild(canvas);
-    let mouseListener = function(ev: MouseEvent) {
+    conf = new Config();
+    let listener1 = function(ev: MouseEvent) {
+        conf.setData(atom.config);
         particalSystem.originPosition.x = ev.clientX;
         particalSystem.originPosition.y = ev.clientY;
-        particalSystem.emit();
+        particalSystem.emit(conf);
     }
-    document.body.onmousemove = mouseListener;
-    document.body.onmousewheel = mouseListener;
-
-    conf = atom.config;
+    let listener2 = function(ev: MouseEvent) {
+        conf.setData(atom.config);
+        particalSystem.originPosition.x = ev.clientX;
+        particalSystem.originPosition.y = ev.clientY;
+        particalSystem.emitWithMultiple(conf, conf.clickCountMultiple, conf.clickSizeMultiple);
+    }
+    document.body.onmousemove = listener1;
+    document.body.onmousewheel = listener1;
+    document.body.onmousedown = listener2;
+    document.body.onmouseup = listener2;
 
     particalSystem = new ParticalSystem(canvas, new PVector(0, 0));
-    particalSystem.config = {
-        emitNumEveryTime: conf.get('partical-fly.emitNumEveryTime'),
-        rateOfAging: conf.get('partical-fly.rateOfAging'),
-        opacity: conf.get('partical-fly.opacity'),
-        maxSize: conf.get('partical-fly.maxSize'),
-        maxInitialVelocity: {
-            x: conf.get('partical-fly.maxInitialVelocity.x'),
-            y: conf.get('partical-fly.maxInitialVelocity.y')
-        }
-    };
+
     setInterval(run, 30);
 }
 
 export function deactivate() {
-    subscriptions.dispose();
     canvas.remove();
 }
 
@@ -103,12 +50,7 @@ export function serialize() {
 export function run() {
     canvas.width = document.body.clientWidth;
     canvas.height = document.body.clientHeight;
-    particalSystem.applyForce(
-        new PVector(
-            conf.get('partical-fly.wind.x'),
-            conf.get('partical-fly.wind.y')
-        )
-    );
+    particalSystem.applyForce(conf.wind);
     particalSystem.run();
-    particalSystem.draw();
+    particalSystem.draw(conf.opacity);
 }
