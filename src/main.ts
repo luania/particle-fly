@@ -7,7 +7,7 @@ export let config = settings;
 
 let canvas: HTMLCanvasElement;
 let particalSystem: ParticalSystem;
-let conf: Config; 
+let conf: Config;
 
 export function activate(state:any) {
     canvas = <HTMLCanvasElement>document.createElement('canvas');
@@ -44,7 +44,7 @@ export function deactivate() {
 }
 
 export function serialize() {
-    return {};
+    return {};  
 }
 
 export function run() {
