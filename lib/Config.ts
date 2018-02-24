@@ -12,7 +12,7 @@ export let settings = {
         maximum: 1
     },
     maxSize: {
-        type: 'number',
+        type: 'number', 
         default: 10,
         minimum: 1
     },

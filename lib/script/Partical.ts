@@ -14,7 +14,7 @@ export class Partical {
         this.position.add(this.velocity);
         this.acceleration.mult(0);
         this.lifeSpan -= this.rateOfAging;
-    }
+    } 
 
     applyForce(force: PVector) {
         this.acceleration.add(PVector.div(force, this.mass));

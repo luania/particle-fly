@@ -1,6 +1,15 @@
 {
+    "compileOnSave": true,
     "compilerOptions": {
         "module": "commonjs",
-        "sourceMap":  true
-    }
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "sourceMap":  true,
+        "outDir": "lib/dist"
+    },
+    "include": [
+        "lib/*.ts",
+        "lib/*/*.ts"
+    ]
 }

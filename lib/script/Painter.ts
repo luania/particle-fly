@@ -12,7 +12,7 @@ export class Painter {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
-    drawCircular(position: PVector, size: number, color: String) {
+    drawCircular(position: PVector, size: number, color: string | CanvasGradient | CanvasPattern) {
         this.ctx.fillStyle = color;
         this.ctx.beginPath();
         this.ctx.arc(position.x, position.y, size, 0, 2 * Math.PI);
