@@ -7,9 +7,9 @@ export let config = settings;
 
 let canvas: HTMLCanvasElement;
 let particalSystem: ParticalSystem;
-let conf: Config;
+let conf: Config; 
 
-export function activate(state) {
+export function activate(state:any) {
     canvas = <HTMLCanvasElement>document.createElement('canvas');
     canvas.width = document.body.clientWidth;
     canvas.height = document.body.clientHeight;
@@ -36,7 +36,7 @@ export function activate(state) {
 
     particalSystem = new ParticalSystem(canvas, new PVector(0, 0));
 
-    setInterval(run, 30);
+    requestAnimationFrame(run);
 }
 
 export function deactivate() {
@@ -53,4 +53,5 @@ export function run() {
     particalSystem.applyForce(conf.wind);
     particalSystem.run();
     particalSystem.draw(conf.opacity);
+    requestAnimationFrame(run);
 }

@@ -7,12 +7,12 @@ export let settings = {
         minimum: 1
     },
     rateOfAging: {
-        type: 'number',
+        type: 'number', 
         default: 0.02,
         maximum: 1
     },
     maxSize: {
-        type: 'number', 
+        type: 'number',
         default: 10,
         minimum: 1
     },

@@ -6,10 +6,10 @@
         "removeComments": true,
         "preserveConstEnums": true,
         "sourceMap":  true,
-        "outDir": "lib/dist"
+        "outDir": "lib"
     },
     "include": [
-        "lib/*.ts",
-        "lib/*/*.ts"
+        "src/*.ts",
+        "src/*/*.ts"
     ]
 }

@@ -6,4 +6,4 @@ export class ExPartical extends Partical {
     b: number = 0;
     size: number = 0;
 }
- 
+  
