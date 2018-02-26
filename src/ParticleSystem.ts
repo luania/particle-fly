@@ -23,6 +23,7 @@ export class ParticleSystem {
             circle.endFill();
             circle.x = this.originPosition.x;
             circle.y = this.originPosition.y;
+
             this.stage.addChild(circle);
 
             let p = new Particle(circle, config.opacity);
