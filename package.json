@@ -1,7 +1,7 @@
 {
-  "name": "partical-fly",
+  "name": "particle-fly",
   "main": "./lib/main",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "A simple package that emit particals on mouse move",
   "keywords": [],
   "repository": "https://github.com/luania/partical-fly",
