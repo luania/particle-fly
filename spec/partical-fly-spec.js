@@ -1,44 +1,44 @@
 'use babel';
 
-import ParticalFly from '../lib/partical-fly';
+import ParticleFly from '../lib/particle-fly';
 
 // Use the command `window:run-package-specs` (cmd-alt-ctrl-p) to run specs.
 //
 // To run a specific `it` or `describe` block add an `f` to the front (e.g. `fit`
 // or `fdescribe`). Remove the `f` to unfocus the block.
 
-describe('ParticalFly', () => {
+describe('ParticleFly', () => {
   let workspaceElement, activationPromise;
 
   beforeEach(() => {
     workspaceElement = atom.views.getView(atom.workspace);
-    activationPromise = atom.packages.activatePackage('partical-fly');
+    activationPromise = atom.packages.activatePackage('particle-fly');
   });
 
-  describe('when the partical-fly:toggle event is triggered', () => {
+  describe('when the particle-fly:toggle event is triggered', () => {
     it('hides and shows the modal panel', () => {
       // Before the activation event the view is not on the DOM, and no panel
       // has been created
-      expect(workspaceElement.querySelector('.partical-fly')).not.toExist();
+      expect(workspaceElement.querySelector('.particle-fly')).not.toExist();
 
       // This is an activation event, triggering it will cause the package to be
       // activated.
-      atom.commands.dispatch(workspaceElement, 'partical-fly:toggle');
+      atom.commands.dispatch(workspaceElement, 'particle-fly:toggle');
 
       waitsForPromise(() => {
         return activationPromise;
       });
 
       runs(() => {
-        expect(workspaceElement.querySelector('.partical-fly')).toExist();
+        expect(workspaceElement.querySelector('.particle-fly')).toExist();
 
-        let particalFlyElement = workspaceElement.querySelector('.partical-fly');
-        expect(particalFlyElement).toExist();
+        let particleFlyElement = workspaceElement.querySelector('.particle-fly');
+        expect(particleFlyElement).toExist();
 
-        let particalFlyPanel = atom.workspace.panelForItem(particalFlyElement);
-        expect(particalFlyPanel.isVisible()).toBe(true);
-        atom.commands.dispatch(workspaceElement, 'partical-fly:toggle');
-        expect(particalFlyPanel.isVisible()).toBe(false);
+        let particleFlyPanel = atom.workspace.panelForItem(particleFlyElement);
+        expect(particleFlyPanel.isVisible()).toBe(true);
+        atom.commands.dispatch(workspaceElement, 'particle-fly:toggle');
+        expect(particleFlyPanel.isVisible()).toBe(false);
       });
     });
 
@@ -51,11 +51,11 @@ describe('ParticalFly', () => {
       // workspaceElement to the DOM are generally slower than those off DOM.
       jasmine.attachToDOM(workspaceElement);
 
-      expect(workspaceElement.querySelector('.partical-fly')).not.toExist();
+      expect(workspaceElement.querySelector('.particle-fly')).not.toExist();
 
       // This is an activation event, triggering it causes the package to be
       // activated.
-      atom.commands.dispatch(workspaceElement, 'partical-fly:toggle');
+      atom.commands.dispatch(workspaceElement, 'particle-fly:toggle');
 
       waitsForPromise(() => {
         return activationPromise;
@@ -63,10 +63,10 @@ describe('ParticalFly', () => {
 
       runs(() => {
         // Now we can test for view visibility
-        let particalFlyElement = workspaceElement.querySelector('.partical-fly');
-        expect(particalFlyElement).toBeVisible();
-        atom.commands.dispatch(workspaceElement, 'partical-fly:toggle');
-        expect(particalFlyElement).not.toBeVisible();
+        let particleFlyElement = workspaceElement.querySelector('.particle-fly');
+        expect(particleFlyElement).toBeVisible();
+        atom.commands.dispatch(workspaceElement, 'particle-fly:toggle');
+        expect(particleFlyElement).not.toBeVisible();
       });
     });
   });

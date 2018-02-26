@@ -41,6 +41,7 @@ export function activate(state:any) {
 }
 
 export function run() {
+    app.renderer.resize(body.clientWidth, body.clientHeight);
     particleSystem.applyForce(conf.wind);
     particleSystem.run();
 }

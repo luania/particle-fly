@@ -2,8 +2,8 @@
   "context-menu": {
     "atom-text-editor": [
       {
-        "label": "Toggle partical-fly",
-        "command": "partical-fly:toggle"
+        "label": "Toggle particle-fly",
+        "command": "particle-fly:toggle"
       }
     ]
   },
@@ -12,11 +12,11 @@
       "label": "Packages",
       "submenu": [
         {
-          "label": "partical-fly",
+          "label": "particle-fly",
           "submenu": [
             {
               "label": "Toggle",
-              "command": "partical-fly:toggle"
+              "command": "particle-fly:toggle"
             }
           ]
         }

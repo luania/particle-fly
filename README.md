@@ -1,4 +1,4 @@
-# partical-fly package
+# particle-fly package
 
 A simple package that emit particles on mouse move
 

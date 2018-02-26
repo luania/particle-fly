@@ -72,15 +72,15 @@ export class Config {
     wind: PVector = new PVector(0, 0);
 
     setData(config: any) {
-        this.emitEveryTime = config.get('partical-fly.emitEveryTime');
-        this.rateOfAging = config.get('partical-fly.rateOfAging');
-        this.opacity = config.get('partical-fly.opacity');
-        this.maxSize = config.get('partical-fly.maxSize');
-        this.clickCountMultiple = config.get('partical-fly.clickCountMultiple');
-        this.clickSizeMultiple = config.get('partical-fly.clickSizeMultiple');
-        this.maxInitialVelocity.x = config.get('partical-fly.maxInitialVelocity.x');
-        this.maxInitialVelocity.y = config.get('partical-fly.maxInitialVelocity.y');
-        this.wind.x = config.get('partical-fly.wind.x');
-        this.wind.y = config.get('partical-fly.wind.y');
+        this.emitEveryTime = config.get('particle-fly.emitEveryTime');
+        this.rateOfAging = config.get('particle-fly.rateOfAging');
+        this.opacity = config.get('particle-fly.opacity');
+        this.maxSize = config.get('particle-fly.maxSize');
+        this.clickCountMultiple = config.get('particle-fly.clickCountMultiple');
+        this.clickSizeMultiple = config.get('particle-fly.clickSizeMultiple');
+        this.maxInitialVelocity.x = config.get('particle-fly.maxInitialVelocity.x');
+        this.maxInitialVelocity.y = config.get('particle-fly.maxInitialVelocity.y');
+        this.wind.x = config.get('particle-fly.wind.x');
+        this.wind.y = config.get('particle-fly.wind.y');
     }
 }

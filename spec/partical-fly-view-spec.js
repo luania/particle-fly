@@ -1,8 +1,8 @@
 'use babel';
 
-import ParticalFlyView from '../lib/partical-fly-view';
+import ParticleFlyView from '../lib/particle-fly-view';
 
-describe('ParticalFlyView', () => {
+describe('ParticleFlyView', () => {
   it('has one valid test', () => {
     expect('life').toBe('easy');
   });
