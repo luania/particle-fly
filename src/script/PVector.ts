@@ -8,7 +8,7 @@ export class PVector {
     add(p: PVector) {
         this.x += p.x;
         this.y += p.y;
-        return this; 
+        return this;
     }
 
     sub(p: PVector) {

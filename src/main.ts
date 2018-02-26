@@ -1,57 +1,54 @@
 import { PVector } from "./script/PVector";
-import { ParticalSystem } from "./ParticalSystem";
+import { ParticleSystem } from "./ParticleSystem";
 import { Config } from "./Config";
 import { settings } from "./Config";
+import * as PIXI from "pixi.js";
 
 export let config = settings;
 
-let canvas: HTMLCanvasElement;
-let particalSystem: ParticalSystem;
+let atomApi:any = (<any>window).atom;
+let body = document.body;
+
+let particleSystem: ParticleSystem;
 let conf: Config;
 
+let app:PIXI.Application;
+
 export function activate(state:any) {
-    canvas = <HTMLCanvasElement>document.createElement('canvas');
-    canvas.width = document.body.clientWidth;
-    canvas.height = document.body.clientHeight;
-    canvas.classList.add('partical-fly');
-
-    document.body.appendChild(canvas);
     conf = new Config();
-    let listener1 = function(ev: MouseEvent) {
-        conf.setData(atom.config);
-        particalSystem.originPosition.x = ev.clientX;
-        particalSystem.originPosition.y = ev.clientY;
-        particalSystem.emit(conf);
+    conf.setData(atomApi.config);
+    let listenerCreator = (countMultiple:number, sizeMultiple:number) => (ev: MouseEvent) => {
+        particleSystem.originPosition.x = ev.clientX;
+        particleSystem.originPosition.y = ev.clientY;
+        particleSystem.emitWithMultiple(conf,countMultiple,sizeMultiple);
     }
-    let listener2 = function(ev: MouseEvent) {
-        conf.setData(atom.config);
-        particalSystem.originPosition.x = ev.clientX;
-        particalSystem.originPosition.y = ev.clientY;
-        particalSystem.emitWithMultiple(conf, conf.clickCountMultiple, conf.clickSizeMultiple);
-    }
-    document.body.onmousemove = listener1;
-    document.body.onmousewheel = listener1;
-    document.body.onmousedown = listener2;
-    document.body.onmouseup = listener2;
+    body.onmousemove = listenerCreator(1,1);
+    body.onmousewheel = listenerCreator(1,1);
+    body.onmousedown = listenerCreator(conf.clickCountMultiple, conf.clickSizeMultiple);
+    body.onmouseup = listenerCreator(conf.clickCountMultiple, conf.clickSizeMultiple);
 
-    particalSystem = new ParticalSystem(canvas, new PVector(0, 0));
-
-    requestAnimationFrame(run);
-}
-
-export function deactivate() {
-    canvas.remove();
-}
-
-export function serialize() {
-    return {};  
+    app = new PIXI.Application({
+        width: body.clientWidth,
+        height: body.clientHeight,
+        antialias: true,
+        transparent: true,
+        resolution: 1
+    });
+    app.view.classList.add('pixi-view');
+    body.appendChild(app.view);
+    particleSystem = new ParticleSystem(app.stage, new PVector(0, 0));
+    app.ticker.add(run);
 }
 
 export function run() {
-    canvas.width = document.body.clientWidth;
-    canvas.height = document.body.clientHeight;
-    particalSystem.applyForce(conf.wind);
-    particalSystem.run();
-    particalSystem.draw(conf.opacity);
-    requestAnimationFrame(run);
+    particleSystem.applyForce(conf.wind);
+    particleSystem.run();
+}
+
+export function deactivate() {
+    app.destroy();
+}
+
+export function serialize() {
+    return {};
 }

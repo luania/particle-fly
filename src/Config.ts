@@ -7,7 +7,7 @@ export let settings = {
         minimum: 1
     },
     rateOfAging: {
-        type: 'number', 
+        type: 'number',
         default: 0.02,
         maximum: 1
     },

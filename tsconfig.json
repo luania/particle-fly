@@ -1,11 +1,9 @@
 {
-    "compileOnSave": true,
     "compilerOptions": {
         "module": "commonjs",
         "noImplicitAny": true,
         "removeComments": true,
         "preserveConstEnums": true,
-        "sourceMap":  true,
         "outDir": "lib"
     },
     "include": [

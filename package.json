@@ -9,5 +9,8 @@
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@types/pixi.js": "^4.7.1",
+    "pixi.js": "^4.7.0"
+  }
 }
