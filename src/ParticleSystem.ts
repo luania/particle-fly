@@ -1,32 +1,41 @@
 import { PVector } from "./script/PVector";
 import { Particle } from "./script/Particle";
 import { Config } from "./Config";
+import { ContainerFactory } from "./ContainerFactory";
 import * as PIXI from "pixi.js";
-
-let randomColor = () => Math.round(Math.random() * 0xFFFFFF);
 
 export class ParticleSystem {
     particles: Particle[] = [];
     originPosition = new PVector(0, 0);
     stage: PIXI.Container;
+    factory = new ContainerFactory();
 
     constructor(stage: PIXI.Container, originPosition: PVector) {
         this.stage = stage;
         this.originPosition = originPosition;
     }
 
-    emitWithMultiple(config: Config, countMultiple: number, sizeMultiple: number) {
+    emit(config: Config, multiple:boolean) {
+        let countMultiple = multiple?config.clickCountMultiple:1;
+        let sizeMultiple = multiple?config.clickSizeMultiple:1;
         for (let i = 0; i < config.emitEveryTime * countMultiple; i++) {
-            let circle = new PIXI.Graphics();
-            circle.beginFill(randomColor());
-            circle.drawCircle(0, 0, Math.random() * config.maxSize * sizeMultiple);
-            circle.endFill();
-            circle.x = this.originPosition.x;
-            circle.y = this.originPosition.y;
+            let container;
+            switch (config.texture) {
+                case "circular":
+                    container= this.factory.circular(config.maxSize * sizeMultiple);
+                    break;
+                case "star":
+                    container= this.factory.star(config.maxSize * sizeMultiple);
+                    break;
+            }
+            container.x = this.originPosition.x;
+            container.y = this.originPosition.y;
 
-            this.stage.addChild(circle);
+            this.stage.addChild(container);
 
-            let p = new Particle(circle, config.opacity);
+            let p = new Particle(container);
+            p.opacity = config.opacity;
+            p.rotation = config.rotation;
             p.position = PVector.copy(this.originPosition);
             p.velocity = new PVector(
                 (Math.random() - 0.5) * config.maxInitialVelocity.x,

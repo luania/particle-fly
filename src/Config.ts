@@ -1,6 +1,15 @@
 import { PVector } from "./script/PVector";
 
 export let settings = {
+    texture: {
+        type: 'string',
+        default: 'star',
+        enum: ['circular', 'star']
+    },
+    rotation: {
+        type: 'number',
+        default: 1
+    },
     emitEveryTime: {
         type: 'integer',
         default: 1,
@@ -23,12 +32,12 @@ export let settings = {
     },
     clickCountMultiple: {
         type: 'integer',
-        default: 6,
+        default: 3,
         minimum: 1
     },
     clickSizeMultiple: {
         type: 'number',
-        default: 4,
+        default: 2,
         minimum: 1
     },
     maxInitialVelocity: {
@@ -62,6 +71,8 @@ export let settings = {
 }
 
 export class Config {
+    texture: string;
+    rotation: number;
     emitEveryTime: number;
     rateOfAging: number;
     maxSize: number;
@@ -72,6 +83,8 @@ export class Config {
     wind: PVector = new PVector(0, 0);
 
     setData(config: any) {
+        this.texture = config.get('particle-fly.texture');
+        this.rotation = config.get('particle-fly.rotation');
         this.emitEveryTime = config.get('particle-fly.emitEveryTime');
         this.rateOfAging = config.get('particle-fly.rateOfAging');
         this.opacity = config.get('particle-fly.opacity');

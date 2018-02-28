@@ -17,15 +17,17 @@ let app:PIXI.Application;
 export function activate(state:any) {
     conf = new Config();
     conf.setData(atomApi.config);
-    let listenerCreator = (countMultiple:number, sizeMultiple:number) => (ev: MouseEvent) => {
+    atomApi.config.observe('particle-fly', (newValue:any, previous:any)=>{
+        conf.setData(atomApi.config);
+    });
+    body.onmousemove = (ev: MouseEvent) => {
         particleSystem.originPosition.x = ev.clientX;
         particleSystem.originPosition.y = ev.clientY;
-        particleSystem.emitWithMultiple(conf,countMultiple,sizeMultiple);
-    }
-    body.onmousemove = listenerCreator(1,1);
-    body.onmousewheel = listenerCreator(1,1);
-    body.onmousedown = listenerCreator(conf.clickCountMultiple, conf.clickSizeMultiple);
-    body.onmouseup = listenerCreator(conf.clickCountMultiple, conf.clickSizeMultiple);
+        particleSystem.emit(conf,false);
+    };
+    body.onmousewheel = body.onmousemove;
+    body.onmousedown = (ev: MouseEvent) => particleSystem.emit(conf, true);
+    body.onmouseup = body.onmousedown;
 
     app = new PIXI.Application({
         width: body.clientWidth,

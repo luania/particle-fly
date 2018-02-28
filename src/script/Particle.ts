@@ -9,11 +9,11 @@ export class Particle {
     mass: number = 1;
     rateOfAging = 0.05;
     container:PIXI.Container;
-    maxAlpha:number;
+    opacity:number = 1;
+    rotation:number = 1;
 
-    constructor(container:PIXI.Container, maxAlpha:number){
+    constructor(container:PIXI.Container){
         this.container = container;
-        this.maxAlpha = maxAlpha;
     }
 
     update() {
@@ -24,7 +24,8 @@ export class Particle {
 
         this.container.x = this.position.x;
         this.container.y = this.position.y;
-        this.container.alpha = this.maxAlpha * this.lifeSpan;
+        this.container.alpha = this.opacity * this.lifeSpan;
+        this.container.rotation += Math.PI / 180 * this.rotation;
     }
 
     applyForce(force: PVector) {
