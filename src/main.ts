@@ -23,10 +23,10 @@ export function activate(state:any) {
     body.onmousemove = (ev: MouseEvent) => {
         particleSystem.originPosition.x = ev.clientX;
         particleSystem.originPosition.y = ev.clientY;
-        particleSystem.emit(conf,false);
+        particleSystem.emit(false);
     };
     body.onmousewheel = body.onmousemove;
-    body.onmousedown = (ev: MouseEvent) => particleSystem.emit(conf, true);
+    body.onmousedown = (ev: MouseEvent) => particleSystem.emit(true);
     body.onmouseup = body.onmousedown;
 
     app = new PIXI.Application({
@@ -38,7 +38,7 @@ export function activate(state:any) {
     });
     app.view.classList.add('pixi-view');
     body.appendChild(app.view);
-    particleSystem = new ParticleSystem(app.stage, new PVector(0, 0));
+    particleSystem = new ParticleSystem(app.stage, new PVector(0, 0), conf);
     app.ticker.add(run);
 }
 

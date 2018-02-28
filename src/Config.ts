@@ -1,10 +1,13 @@
 import { PVector } from "./script/PVector";
 
 export let settings = {
+    asd: {
+        type: 'file'
+    },
     texture: {
         type: 'string',
         default: 'star',
-        enum: ['circular', 'star']
+        enum: ['circular', 'star', 'starSakura']
     },
     rotation: {
         type: 'number',

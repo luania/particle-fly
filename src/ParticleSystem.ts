@@ -8,40 +8,46 @@ export class ParticleSystem {
     particles: Particle[] = [];
     originPosition = new PVector(0, 0);
     stage: PIXI.Container;
+    config: Config;
     factory = new ContainerFactory();
 
-    constructor(stage: PIXI.Container, originPosition: PVector) {
+    constructor(stage: PIXI.Container, originPosition: PVector, config:Config) {
         this.stage = stage;
         this.originPosition = originPosition;
+        this.config = config;
     }
 
-    emit(config: Config, multiple:boolean) {
-        let countMultiple = multiple?config.clickCountMultiple:1;
-        let sizeMultiple = multiple?config.clickSizeMultiple:1;
-        for (let i = 0; i < config.emitEveryTime * countMultiple; i++) {
+    emit(multiple:boolean) {
+        let countMultiple = multiple?this.config.clickCountMultiple:1;
+        this.factory.maxSize = this.config.maxSize * (multiple?this.config.clickSizeMultiple:1);
+        for (let i = 0; i < this.config.emitEveryTime * countMultiple; i++) {
             let container;
-            switch (config.texture) {
+            switch (this.config.texture) {
                 case "circular":
-                    container= this.factory.circular(config.maxSize * sizeMultiple);
+                    container= this.factory.circular();
                     break;
                 case "star":
-                    container= this.factory.star(config.maxSize * sizeMultiple);
+                    container= this.factory.star();
+                    break;
+                case "starSakura":
+                    container= this.factory.starSakura();
+                    break;
+                default:
                     break;
             }
-            container.x = this.originPosition.x;
-            container.y = this.originPosition.y;
+            container.position.set(this.originPosition.x, this.originPosition.y);
 
             this.stage.addChild(container);
 
             let p = new Particle(container);
-            p.opacity = config.opacity;
-            p.rotation = config.rotation;
+            p.opacity = this.config.opacity;
+            p.rotation = this.config.rotation;
             p.position = PVector.copy(this.originPosition);
             p.velocity = new PVector(
-                (Math.random() - 0.5) * config.maxInitialVelocity.x,
-                (Math.random() - 0.5) * config.maxInitialVelocity.y
+                (Math.random() - 0.5) * this.config.maxInitialVelocity.x,
+                (Math.random() - 0.5) * this.config.maxInitialVelocity.y
             );
-            p.rateOfAging = config.rateOfAging;
+            p.rateOfAging = this.config.rateOfAging;
             p.mass = 1 + Math.random() * 3;
             this.particles.push(p);
         }
