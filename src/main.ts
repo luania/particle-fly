@@ -20,24 +20,25 @@ export function activate(state:any) {
     atomApi.config.observe('particle-fly', (newValue:any, previous:any)=>{
         conf.setData(atomApi.config);
     });
+    app = new PIXI.Application({
+      width: body.clientWidth,
+      height: body.clientHeight,
+      antialias: true,
+      transparent: true,
+      resolution: 1
+    });
+    app.view.classList.add('pixi-view');
+    body.appendChild(app.view);
+
     body.onmousemove = (ev: MouseEvent) => {
-        particleSystem.originPosition.x = ev.clientX;
-        particleSystem.originPosition.y = ev.clientY;
-        particleSystem.emit(false);
+      particleSystem.originPosition.x = ev.clientX;
+      particleSystem.originPosition.y = ev.clientY;
+      particleSystem.emit(false);
     };
     body.onmousewheel = body.onmousemove;
     body.onmousedown = (ev: MouseEvent) => particleSystem.emit(true);
     body.onmouseup = body.onmousedown;
 
-    app = new PIXI.Application({
-        width: body.clientWidth,
-        height: body.clientHeight,
-        antialias: true,
-        transparent: true,
-        resolution: 1
-    });
-    app.view.classList.add('pixi-view');
-    body.appendChild(app.view);
     particleSystem = new ParticleSystem(app.stage, new PVector(0, 0), conf);
     app.ticker.add(run);
 }

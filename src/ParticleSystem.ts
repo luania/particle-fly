@@ -2,6 +2,7 @@ import { PVector } from "./script/PVector";
 import { Particle } from "./script/Particle";
 import { Config } from "./Config";
 import { ContainerFactory } from "./ContainerFactory";
+import { Colors } from "./script/Colors";
 import * as PIXI from "pixi.js";
 
 export class ParticleSystem {
