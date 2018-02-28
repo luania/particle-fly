@@ -1,20 +1,18 @@
 import * as PIXI from "pixi.js";
 
-let randomColor = () => Math.round(Math.random() * 0xFFFFFF);
-
 export class ContainerFactory {
 
-    circular(maxSize:number) {
+    circular(maxSize:number, color:number) {
         let circle = new PIXI.Graphics();
-        circle.beginFill(randomColor());
+        circle.beginFill(color);
         circle.drawCircle(0, 0, Math.random() * maxSize);
         circle.endFill();
         return circle;
     }
 
-    star(maxSize:number) {
+    star(maxSize:number, color:number) {
         let star = new PIXI.Graphics();
-        star.beginFill(randomColor());
+        star.beginFill(color);
         let points: PIXI.Point[] = [];
         let size = Math.random() * maxSize;
         for( var i = 0 ; i < 5 ; i ++){

@@ -15,17 +15,26 @@ export class ParticleSystem {
         this.originPosition = originPosition;
     }
 
+    randomColor(config: Config) {
+        if (config.monochrome) {
+            return 0xFFFFFF;
+        } else {
+            return Math.round(Math.random() * 0xFFFFFF);
+        }
+    }
+
     emit(config: Config, multiple:boolean) {
         let countMultiple = multiple?config.clickCountMultiple:1;
         let sizeMultiple = multiple?config.clickSizeMultiple:1;
         for (let i = 0; i < config.emitEveryTime * countMultiple; i++) {
             let container;
+            let color = this.randomColor(config);
             switch (config.texture) {
                 case "circular":
-                    container= this.factory.circular(config.maxSize * sizeMultiple);
+                    container= this.factory.circular(config.maxSize * sizeMultiple, color);
                     break;
                 case "star":
-                    container= this.factory.star(config.maxSize * sizeMultiple);
+                    container= this.factory.star(config.maxSize * sizeMultiple, color);
                     break;
             }
             container.x = this.originPosition.x;

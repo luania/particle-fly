@@ -40,6 +40,10 @@ export let settings = {
         default: 2,
         minimum: 1
     },
+    monochrome: {
+        type: 'boolean',
+        "default": false
+    },
     maxInitialVelocity: {
         type: 'object',
         properties: {
@@ -79,6 +83,7 @@ export class Config {
     opacity: number;
     clickCountMultiple: number;
     clickSizeMultiple: number;
+    monochrome: boolean;
     maxInitialVelocity: PVector = new PVector(0, 0);
     wind: PVector = new PVector(0, 0);
 
@@ -91,6 +96,7 @@ export class Config {
         this.maxSize = config.get('particle-fly.maxSize');
         this.clickCountMultiple = config.get('particle-fly.clickCountMultiple');
         this.clickSizeMultiple = config.get('particle-fly.clickSizeMultiple');
+        this.monochrome = config.get('particle-fly.monochrome');
         this.maxInitialVelocity.x = config.get('particle-fly.maxInitialVelocity.x');
         this.maxInitialVelocity.y = config.get('particle-fly.maxInitialVelocity.y');
         this.wind.x = config.get('particle-fly.wind.x');
