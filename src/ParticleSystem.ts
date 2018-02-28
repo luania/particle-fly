@@ -20,6 +20,7 @@ export class ParticleSystem {
     emit(multiple:boolean) {
         let countMultiple = multiple?this.config.clickCountMultiple:1;
         this.factory.maxSize = this.config.maxSize * (multiple?this.config.clickSizeMultiple:1);
+        this.factory.monochrome = this.config.monochrome;
         for (let i = 0; i < this.config.emitEveryTime * countMultiple; i++) {
             let container;
             switch (this.config.texture) {

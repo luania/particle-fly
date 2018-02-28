@@ -13,10 +13,11 @@ for (var i = 0; i < 5; i++) {
 
 export class ContainerFactory {
     maxSize = 1;
+    monochrome = false;
 
     circular() {
         let circle = new PIXI.Graphics();
-        circle.beginFill(Colors.randomColor());
+        circle.beginFill(this.monochrome?Colors.white:Colors.randomColor());
         circle.drawCircle(0, 0, Math.random() * this.maxSize);
         circle.endFill();
         return circle;
@@ -24,7 +25,7 @@ export class ContainerFactory {
 
     star() {
         let star = new PIXI.Graphics();
-        star.beginFill(Colors.randomColor());
+        star.beginFill(this.monochrome?Colors.white:Colors.randomColor());
         let points: PIXI.Point[] = [];
         let size = Math.random() * this.maxSize;
         for (let p of normalStarPoints) {
@@ -37,7 +38,7 @@ export class ContainerFactory {
 
     starSakura() {
         let star = new PIXI.Graphics();
-        star.beginFill(Colors.pink);
+        star.beginFill(this.monochrome?Colors.white:Colors.pink);
         let points: PIXI.Point[] = [];
         let size = Math.random() * this.maxSize;
         for (let p of normalStarPoints) {
