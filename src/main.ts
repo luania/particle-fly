@@ -6,37 +6,61 @@ import * as PIXI from "pixi.js";
 
 export let config = settings;
 
-let atomApi:any = (<any>window).atom;
+let atomApi: any = (<any>window).atom;
 let body = document.body;
 
 let particleSystem: ParticleSystem;
 let conf: Config;
 
-let app:PIXI.Application;
+let app: PIXI.Application;
 
-export function activate(state:any) {
+let loadding = false;
+
+export function activate(state: any) {
     conf = new Config();
     conf.setData(atomApi.config);
-    atomApi.config.observe('particle-fly', (newValue:any, previous:any)=>{
+    atomApi.config.observe('particle-fly', (newValue: any, previous: any) => {
         conf.setData(atomApi.config);
+        console.log(conf);
+        if (conf.whatToDraw.texture == "- custImage -") {
+            loadding = true;
+            if (!conf.whatToDraw.image) {
+                return;
+            }
+            if (!PIXI.loader.resources[conf.whatToDraw.image]) {
+                PIXI.loader.add(conf.whatToDraw.image).load(() => {
+                    loadding = false;
+                });
+            } else {
+                loadding = false;
+            }
+        } else {
+            loadding = false;
+        }
     });
     app = new PIXI.Application({
-      width: body.clientWidth,
-      height: body.clientHeight,
-      antialias: true,
-      transparent: true,
-      resolution: 1
+        width: body.clientWidth,
+        height: body.clientHeight,
+        antialias: true,
+        transparent: true,
+        resolution: 1
     });
     app.view.classList.add('pixi-view');
     body.appendChild(app.view);
 
     body.onmousemove = (ev: MouseEvent) => {
-      particleSystem.originPosition.x = ev.clientX;
-      particleSystem.originPosition.y = ev.clientY;
-      particleSystem.emit(false);
+        particleSystem.originPosition.x = ev.clientX;
+        particleSystem.originPosition.y = ev.clientY;
+        if (!loadding) {
+            particleSystem.emit(false);
+        }
     };
     body.onmousewheel = body.onmousemove;
-    body.onmousedown = (ev: MouseEvent) => particleSystem.emit(true);
+    body.onmousedown = (ev: MouseEvent) => {
+        if (!loadding) {
+            particleSystem.emit(true);
+        }
+    };;
     body.onmouseup = body.onmousedown;
 
     particleSystem = new ParticleSystem(app.stage, new PVector(0, 0), conf);

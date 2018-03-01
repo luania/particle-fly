@@ -10,21 +10,21 @@ export class ParticleSystem {
     originPosition = new PVector(0, 0);
     stage: PIXI.Container;
     config: Config;
-    factory = new ContainerFactory();
+    factory:ContainerFactory;
 
     constructor(stage: PIXI.Container, originPosition: PVector, config:Config) {
         this.stage = stage;
         this.originPosition = originPosition;
         this.config = config;
+        this.factory = new ContainerFactory(config);
     }
 
     emit(multiple:boolean) {
         let countMultiple = multiple?this.config.clickCountMultiple:1;
-        this.factory.maxSize = this.config.maxSize * (multiple?this.config.clickSizeMultiple:1);
-        this.factory.monochrome = this.config.monochrome;
+        this.factory.multiple = multiple;
         for (let i = 0; i < this.config.emitEveryTime * countMultiple; i++) {
             let container;
-            switch (this.config.texture) {
+            switch (this.config.whatToDraw.texture) {
                 case "circular":
                     container= this.factory.circular();
                     break;
@@ -34,6 +34,8 @@ export class ParticleSystem {
                 case "starSakura":
                     container= this.factory.starSakura();
                     break;
+                case "- custImage -":
+                    container = this.factory.image();
                 default:
                     break;
             }
@@ -42,7 +44,7 @@ export class ParticleSystem {
             this.stage.addChild(container);
 
             let p = new Particle(container);
-            p.opacity = this.config.opacity;
+            p.opacity = this.config.whatToDraw.opacity;
             p.rotation = this.config.rotation;
             p.position = PVector.copy(this.originPosition);
             p.velocity = new PVector(
