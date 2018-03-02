@@ -7,7 +7,7 @@ A simple package that emit particles on mouse move
 With the atom package manager:
 
 ```
-apm install atom-package-sync
+apm install particle-fly
 ```
 Or Settings ➔ Packages ➔ Search for particle-fly
 
