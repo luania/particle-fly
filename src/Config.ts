@@ -10,45 +10,50 @@ export let settings = {
                 title: 'texture',
                 type: 'string',
                 default: 'star',
-                enum: ['- custImage -', 'circular', 'star', 'starSakura', 'cross']
+                enum: ['- custImage -', 'circular', 'star', 'cross', 'hexagram']
             },
-            monochrome: {
+            color: {
                 order: 2,
-                title: 'monochrome',
+                title: 'color',
+                type: 'color',
+                default: 'white'
+            },
+            randomColor: {
+                order: 3,
+                title: 'randomColor',
                 type: 'boolean',
-                default: false,
-                description: 'effectless when texture is \'- custImage -\''
+                default: true,
             },
             image: {
-                order: 3,
+                order: 5,
                 title: 'images',
                 type: 'string',
                 default: '',
                 description: 'local or net image,cut with \';\',random for each particle,only effect when texture is \'- custImage -\''
             },
             opacity: {
-                order: 4,
+                order: 6,
                 title: 'opacity',
                 type: 'number',
                 default: 0.6,
                 maximum: 1
             },
             minSize: {
-                order: 5,
+                order: 7,
                 title: 'minSize',
                 type: 'number',
                 default: 2,
                 minimum: 1
             },
             maxSize: {
-                order: 6,
+                order: 8,
                 title: 'maxSize',
                 type: 'number',
                 default: 10,
                 minimum: 2
             },
             blur: {
-                order: 7,
+                order: 9,
                 title: 'blur',
                 type: 'number',
                 default: 0,
@@ -128,7 +133,8 @@ export let settings = {
 class WhatToDraw {
     texture: string;
     image: string;
-    monochrome: boolean;
+    randomColor: boolean;
+    color: any;
     minSize: number;
     maxSize: number;
     opacity: number;
