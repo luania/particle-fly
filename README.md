@@ -12,6 +12,7 @@ apm install atom-package-sync
 Or Settings ➔ Packages ➔ Search for particle-fly
 
 ## Change log
+
 #### 0.3.7
 - add settings
     + color
@@ -22,6 +23,7 @@ Or Settings ➔ Packages ➔ Search for particle-fly
     + starSakura
 - add texture
     + hexagram
+
 #### 0.3.6
 - support custImage set
 - add blur to settings
