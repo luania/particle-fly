@@ -10,41 +10,27 @@ export class ParticleSystem {
     originPosition = new PVector(0, 0);
     stage: PIXI.Container;
     config: Config;
-    factory:ContainerFactory;
+    factory: ContainerFactory;
 
-    constructor(stage: PIXI.Container, originPosition: PVector, config:Config) {
+    constructor(stage: PIXI.Container, originPosition: PVector, config: Config) {
         this.stage = stage;
         this.originPosition = originPosition;
         this.config = config;
         this.factory = new ContainerFactory(config);
     }
 
-    emit(multiple:boolean) {
-        let countMultiple = multiple?this.config.clickCountMultiple:1;
+    emit(multiple: boolean) {
+        let countMultiple = multiple ? this.config.clickCountMultiple : 1;
         this.factory.multiple = multiple;
         for (let i = 0; i < this.config.emitEveryTime * countMultiple; i++) {
-            let container;
-            switch (this.config.whatToDraw.texture) {
-                case "circular":
-                    container= this.factory.circular();
-                    break;
-                case "star":
-                    container= this.factory.star();
-                    break;
-                case "starSakura":
-                    container= this.factory.starSakura();
-                    break;
-                case "- custImage -":
-                    container = this.factory.image();
-                default:
-                    break;
-            }
+            let container = this.factory.create();
             container.position.set(this.originPosition.x, this.originPosition.y);
-
+            if(this.config.randomInitialAngle){
+                container.rotation = Math.random() * Math.PI * 2;
+            }
             this.stage.addChild(container);
 
             let p = new Particle(container);
-            p.opacity = this.config.whatToDraw.opacity;
             p.rotation = this.config.rotation;
             p.position = PVector.copy(this.originPosition);
             p.velocity = new PVector(

@@ -10,7 +10,7 @@ export let settings = {
                 title: 'texture',
                 type: 'string',
                 default: 'star',
-                enum: ['- custImage -', 'circular', 'star', 'starSakura']
+                enum: ['- custImage -', 'circular', 'star', 'starSakura', 'cross']
             },
             monochrome: {
                 order: 2,
@@ -46,40 +46,51 @@ export let settings = {
                 type: 'number',
                 default: 10,
                 minimum: 2
+            },
+            blur: {
+                order: 7,
+                title: 'blur',
+                type: 'number',
+                default: 0,
             }
         }
     },
-    rotation: {
+    randomInitialAngle: {
         order: 2,
+        type: 'boolean',
+        default: false
+    },
+    rotation: {
+        order: 3,
         type: 'number',
         default: 1
     },
     emitEveryTime: {
-        order: 3,
+        order: 4,
         type: 'integer',
         default: 1,
         minimum: 1
     },
     rateOfAging: {
-        order: 4,
+        order: 5,
         type: 'number',
         default: 0.02,
         maximum: 1
     },
     clickCountMultiple: {
-        order: 5,
+        order: 6,
         type: 'integer',
         default: 3,
         minimum: 1
     },
     clickSizeMultiple: {
-        order: 6,
+        order: 7,
         type: 'number',
         default: 2,
         minimum: 1
     },
     maxInitialVelocity: {
-        order: 7,
+        order: 8,
         type: 'object',
         properties: {
             x: {
@@ -97,7 +108,7 @@ export let settings = {
         }
     },
     wind: {
-        order: 8,
+        order: 9,
         type: 'object',
         properties: {
             x: {
@@ -115,20 +126,22 @@ export let settings = {
 }
 
 class WhatToDraw {
-    texture:string;
-    image:string;
-    monochrome:boolean;
+    texture: string;
+    image: string;
+    monochrome: boolean;
     minSize: number;
     maxSize: number;
     opacity: number;
+    blur: number;
     range() {
         let r = this.maxSize - this.minSize;
-        return r>0?r:0;
+        return r > 0 ? r : 0;
     }
 }
 
 export class Config {
     whatToDraw = new WhatToDraw();
+    randomInitialAngle: number;
     rotation: number;
     emitEveryTime: number;
     rateOfAging: number;

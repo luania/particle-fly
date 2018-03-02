@@ -10,39 +10,48 @@ let atomApi: any = (<any>window).atom;
 let body = document.body;
 
 let particleSystem: ParticleSystem;
-let conf: Config;
+let conf = new Config();
 
 let app: PIXI.Application;
 
 let loadding = false;
 
-export function activate(state: any) {
-    conf = new Config();
+let refreshConfig = () => {
     conf.setData(atomApi.config);
-    atomApi.config.observe('particle-fly', (newValue: any, previous: any) => {
-        conf.setData(atomApi.config);
-        if (conf.whatToDraw.texture == "- custImage -") {
-            loadding = true;
-            if (!conf.whatToDraw.image) {
-                return;
-            }
-            let urls = conf.whatToDraw.image.split(';');
-            let countToLoad = 0;
-            for (let url of urls) {
-                if (PIXI.loader.resources[url]) continue;
-                PIXI.loader.add(url);
-                countToLoad++;
-            }
-            PIXI.loader.load(() => {
-                loadding = false;
-            });
-            if (countToLoad == 0) {
-                loadding = false;
-            }
-        } else {
+    let whatToDraw = conf.whatToDraw;
+    if(app){
+        app.stage.alpha = whatToDraw.opacity;
+        let filters = [];
+        if(conf.whatToDraw.blur != 0){
+            let filter = new PIXI.filters.BlurFilter();
+            filter.blurX = conf.whatToDraw.blur;
+            filter.blurY = conf.whatToDraw.blur;
+            filters.push(filter);
+        }
+        app.stage.filters = filters;
+    }
+    if (whatToDraw.texture == "- custImage -") {
+        loadding = true;
+        if (!whatToDraw.image) {
+            return;
+        }
+        let urls = whatToDraw.image.split(';');
+        let countToLoad = 0;
+        for (let url of urls) {
+            if (PIXI.loader.resources[url]) continue;
+            PIXI.loader.add(url);
+            countToLoad++;
+        }
+        PIXI.loader.load(() => loadding = false);
+        if (countToLoad == 0) {
             loadding = false;
         }
-    });
+    } else {
+        loadding = false;
+    }
+}
+
+export function activate(state: any) {
     app = new PIXI.Application({
         width: body.clientWidth,
         height: body.clientHeight,
@@ -67,6 +76,9 @@ export function activate(state: any) {
         }
     };;
     body.onmouseup = body.onmousedown;
+
+    refreshConfig();
+    atomApi.config.observe('particle-fly', (newValue: any, previous: any) => refreshConfig());
 
     particleSystem = new ParticleSystem(app.stage, new PVector(0, 0), conf);
     app.ticker.add(run);

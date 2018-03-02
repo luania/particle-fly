@@ -9,7 +9,6 @@ export class Particle {
     mass: number = 1;
     rateOfAging = 0.05;
     container:PIXI.Container;
-    opacity:number = 1;
     rotation:number = 1;
 
     constructor(container:PIXI.Container){
@@ -23,7 +22,7 @@ export class Particle {
         this.lifeSpan -= this.rateOfAging;
 
         this.container.position.set(this.position.x, this.position.y);
-        this.container.alpha = this.opacity * this.lifeSpan;
+        this.container.alpha = this.lifeSpan;
         this.container.rotation += Math.PI / 180 * this.rotation;
     }
 
