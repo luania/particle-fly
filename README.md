@@ -13,7 +13,7 @@ Or Settings ➔ Packages ➔ Search for particle-fly
 
 ## Change log
 
-#### 0.3.7
+#### 0.3.8
 - add settings
     + color
     + randomColor
