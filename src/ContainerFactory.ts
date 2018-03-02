@@ -25,6 +25,10 @@ export class ContainerFactory {
             * (this.multiple ? this.config.clickSizeMultiple : 1);
     }
 
+    randomFromArray(arr:any[]) {
+        return arr[Math.round(Math.random()*(arr.length-1))];
+    }
+
     circular() {
         let circle = new PIXI.Graphics();
         circle.beginFill(this.config.whatToDraw.monochrome ? Colors.white : Colors.random());
@@ -62,8 +66,9 @@ export class ContainerFactory {
     image() {
         let image = new PIXI.Sprite();
         let size = this.randomSize();
-        console.log(this.config.whatToDraw.image);
-        image.texture = PIXI.loader.resources[this.config.whatToDraw.image].texture;
+        let urls = this.config.whatToDraw.image.split(';');
+        let url = this.randomFromArray(urls);
+        image.texture = PIXI.loader.resources[url].texture;
         image.width = size*2;
         image.height = size*2;
         image.anchor.x = 0.5;

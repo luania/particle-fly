@@ -21,17 +21,22 @@ export function activate(state: any) {
     conf.setData(atomApi.config);
     atomApi.config.observe('particle-fly', (newValue: any, previous: any) => {
         conf.setData(atomApi.config);
-        console.log(conf);
         if (conf.whatToDraw.texture == "- custImage -") {
             loadding = true;
             if (!conf.whatToDraw.image) {
                 return;
             }
-            if (!PIXI.loader.resources[conf.whatToDraw.image]) {
-                PIXI.loader.add(conf.whatToDraw.image).load(() => {
-                    loadding = false;
-                });
-            } else {
+            let urls = conf.whatToDraw.image.split(';');
+            let countToLoad = 0;
+            for (let url of urls) {
+                if (PIXI.loader.resources[url]) continue;
+                PIXI.loader.add(url);
+                countToLoad++;
+            }
+            PIXI.loader.load(() => {
+                loadding = false;
+            });
+            if (countToLoad == 0) {
                 loadding = false;
             }
         } else {

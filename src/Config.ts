@@ -24,7 +24,7 @@ export let settings = {
                 title: 'images',
                 type: 'string',
                 default: '',
-                description: 'Image path Set,random for each particle,only effect when texture is \'- custImage -\''
+                description: 'local or net image,cut with \';\',random for each particle,only effect when texture is \'- custImage -\''
             },
             opacity: {
                 order: 4,
