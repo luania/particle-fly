@@ -1,3 +1,8 @@
+#### 0.5.0
+- add settings
+    + starPoints
+    + alwaysEmit
+
 #### 0.4.0
 - add settings
     + color

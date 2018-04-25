@@ -57,45 +57,57 @@ export let settings = {
                 title: 'blur',
                 type: 'number',
                 default: 0,
+            },
+            starPoints: {
+                order: 10,
+                title: 'starPoints',
+                type: 'number',
+                default: 5,
+                minimum: 3,
             }
         }
     },
-    randomInitialAngle: {
+    alwaysEmit: {
         order: 2,
         type: 'boolean',
         default: false
     },
-    rotation: {
+    randomInitialAngle: {
         order: 3,
+        type: 'boolean',
+        default: false
+    },
+    rotation: {
+        order: 4,
         type: 'number',
         default: 1
     },
     emitEveryTime: {
-        order: 4,
+        order: 5,
         type: 'integer',
         default: 1,
         minimum: 1
     },
     rateOfAging: {
-        order: 5,
+        order: 6,
         type: 'number',
         default: 0.02,
         maximum: 1
     },
     clickCountMultiple: {
-        order: 6,
+        order: 7,
         type: 'integer',
         default: 3,
         minimum: 1
     },
     clickSizeMultiple: {
-        order: 7,
+        order: 8,
         type: 'number',
         default: 2,
         minimum: 1
     },
     maxInitialVelocity: {
-        order: 8,
+        order: 9,
         type: 'object',
         properties: {
             x: {
@@ -113,7 +125,7 @@ export let settings = {
         }
     },
     wind: {
-        order: 9,
+        order: 10,
         type: 'object',
         properties: {
             x: {
@@ -139,15 +151,27 @@ class WhatToDraw {
     maxSize: number;
     opacity: number;
     blur: number;
+    starPoints: number;
     range() {
         let r = this.maxSize - this.minSize;
         return r > 0 ? r : 0;
+    }
+    getImageArr() {
+        let urlsTemp = this.image.split(';');
+        let urls = [];
+        for(let url of urlsTemp){
+            if(url && url != "" ){
+                urls.push(url);
+            }
+        }
+        return urls;
     }
 }
 
 export class Config {
     whatToDraw = new WhatToDraw();
-    randomInitialAngle: number;
+    alwaysEmit: boolean;
+    randomInitialAngle: boolean;
     rotation: number;
     emitEveryTime: number;
     rateOfAging: number;

@@ -24,8 +24,8 @@ let refreshConfig = () => {
         let filters = [];
         if(conf.whatToDraw.blur != 0){
             let filter = new PIXI.filters.BlurFilter();
-            filter.blurX = conf.whatToDraw.blur;
-            filter.blurY = conf.whatToDraw.blur;
+            filter.blurX = whatToDraw.blur;
+            filter.blurY = whatToDraw.blur;
             filters.push(filter);
         }
         app.stage.filters = filters;
@@ -35,7 +35,7 @@ let refreshConfig = () => {
         if (!whatToDraw.image) {
             return;
         }
-        let urls = whatToDraw.image.split(';');
+        let urls = whatToDraw.getImageArr();
         let countToLoad = 0;
         for (let url of urls) {
             if (PIXI.loader.resources[url]) continue;
@@ -65,6 +65,9 @@ export function activate(state: any) {
     body.onmousemove = (ev: MouseEvent) => {
         particleSystem.originPosition.x = ev.clientX;
         particleSystem.originPosition.y = ev.clientY;
+        if(conf.alwaysEmit){
+            return;
+        }
         if (!loadding) {
             particleSystem.emit(false);
         }
@@ -85,6 +88,11 @@ export function activate(state: any) {
 }
 
 export function run() {
+    if(conf.alwaysEmit){
+        if (!loadding) {
+            particleSystem.emit(true);
+        }
+    }
     app.renderer.resize(body.clientWidth, body.clientHeight);
     particleSystem.applyForce(conf.wind);
     particleSystem.run();

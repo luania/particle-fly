@@ -1,7 +1,7 @@
 # particle-fly package
 
 A simple package that emit particles on mouse move
-![A screenshot of your package](http://o9se8xpch.bkt.clouddn.com/demo.gif)
+![A screenshot of your package](./demo/demo.gif)
 
 ## Install
 With the atom package manager:
@@ -12,6 +12,11 @@ apm install particle-fly
 Or Settings ➔ Packages ➔ Search for particle-fly
 
 ## Change log
+
+#### 0.5.0
+- add settings
+    + starPoints
+    + alwaysEmit
 
 #### 0.4.0
 - add settings

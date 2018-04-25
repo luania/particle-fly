@@ -58,12 +58,13 @@ export class ContainerFactory {
     star() {
         let star = new PIXI.Graphics();
         star.beginFill(this.color());
-        let points: PIXI.Point[] = [];
         let size = this.randomSize();
-        for (let p of normalStarPoints) {
-            points.push(point(p.x * size, p.y * size));
-        }
-        star.drawPolygon(points);
+        // let points: PIXI.Point[] = [];
+        // for (let p of normalStarPoints) {
+        //     points.push(point(p.x * size, p.y * size));
+        // }
+        // star.drawPolygon(points);
+        star.drawStar(0, 0, this.config.whatToDraw.starPoints, size, size/2);
         star.endFill();
         return star;
     }
@@ -99,13 +100,15 @@ export class ContainerFactory {
     image() {
         let image = new PIXI.Sprite();
         let size = this.randomSize();
-        let urls = this.config.whatToDraw.image.split(';');
+        let urls = this.config.whatToDraw.getImageArr();
         let url = this.randomFromArray(urls);
-        image.texture = PIXI.loader.resources[url].texture;
-        image.width = size * 2;
-        image.height = size * 2;
-        image.anchor.x = 0.5;
-        image.anchor.y = 0.5;
+        if(PIXI.loader.resources[url]){
+            image.texture = PIXI.loader.resources[url].texture;
+            image.width = size * 2;
+            image.height = size * 2;
+            image.anchor.x = 0.5;
+            image.anchor.y = 0.5;
+        }
         return image;
     }
 }
