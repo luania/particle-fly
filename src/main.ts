@@ -51,6 +51,40 @@ let refreshConfig = () => {
     }
 }
 
+function listenEditor(){
+    try{
+        let editor = atomApi.workspace.getActiveTextEditor();
+        let editorElement = editor.getElement();
+        let scrollView = editorElement.querySelector(".scroll-view");
+        editor.getBuffer().onDidChangeText((ev:any) => {
+            for(let e of ev.changes){
+                let position = e.newRange[e.newText?"end":"start"];
+                let aPos = editorElement.pixelPositionForScreenPosition(
+                    editor.screenPositionForBufferPosition(position)
+                );
+                let rect = scrollView.getBoundingClientRect();
+                let left = aPos.left
+                    + rect.left
+                    - editorElement.getScrollLeft();
+                let top = aPos.top
+                    + rect.top
+                    - editorElement.getScrollTop()
+                    + editor.getLineHeightInPixels();
+                particleSystem.originPosition.x = left;
+                particleSystem.originPosition.y = top;
+                if(conf.alwaysEmit){
+                    return;
+                }
+                if (!loadding) {
+                    particleSystem.emit(false);
+                }
+            }
+        });
+    }catch(e){
+        console.log(e);
+    }
+}
+
 export function activate(state: any) {
     app = new PIXI.Application({
         width: body.clientWidth,
@@ -82,6 +116,10 @@ export function activate(state: any) {
 
     refreshConfig();
     atomApi.config.observe('particle-fly', (newValue: any, previous: any) => refreshConfig());
+    listenEditor();
+    atomApi.workspace.onDidStopChangingActivePaneItem((textEditor:any) => {
+        listenEditor();
+    });
 
     particleSystem = new ParticleSystem(app.stage, new PVector(0, 0), conf);
     app.ticker.add(run);

@@ -102,7 +102,7 @@ export class ContainerFactory {
         let size = this.randomSize();
         let urls = this.config.whatToDraw.getImageArr();
         let url = this.randomFromArray(urls);
-        if(PIXI.loader.resources[url]){
+        if(PIXI.loader.resources[url] && PIXI.loader.resources[url].texture){
             image.texture = PIXI.loader.resources[url].texture;
             image.width = size * 2;
             image.height = size * 2;

@@ -1,7 +1,7 @@
 # particle-fly package
 
 A simple package that emit particles on mouse move
-![A screenshot of your package](./demo/demo.gif)
+![A screenshot of your package](https://github.com/luania/luania.github.io/blob/master/static/gif/demo.gif?raw=true)
 
 ## Install
 With the atom package manager:
