@@ -1,8 +1,38 @@
 import { PVector } from "./script/PVector";
 
 export let settings = {
-    whatToDraw: {
+    eventToDraw: {
         order: 1,
+        type: 'object',
+        properties: {
+            onMouseMove: {
+                order: 1,
+                title: 'onMouseMove',
+                type: 'boolean',
+                default: true,
+            },
+            onMouseClick: {
+                order: 2,
+                title: 'onMouseClick',
+                type: 'boolean',
+                default: true,
+            },
+            alwaysEmitAtMouse: {
+                order: 3,
+                title: 'alwaysEmitAtMouse',
+                type: 'boolean',
+                default: false
+            },
+            onEdit: {
+                order: 4,
+                title: 'onEdit',
+                type: 'boolean',
+                default: true,
+            }
+        }
+    },
+    whatToDraw: {
+        order: 2,
         type: 'object',
         properties: {
             texture: {
@@ -67,47 +97,42 @@ export let settings = {
             }
         }
     },
-    alwaysEmit: {
-        order: 2,
-        type: 'boolean',
-        default: false
-    },
     randomInitialAngle: {
-        order: 3,
+        order: 4,
         type: 'boolean',
-        default: false
+        default: true
     },
     rotation: {
-        order: 4,
+        order: 5,
         type: 'number',
         default: 1
     },
     emitEveryTime: {
-        order: 5,
+        order: 6,
         type: 'integer',
         default: 1,
         minimum: 1
     },
     rateOfAging: {
-        order: 6,
+        order: 7,
         type: 'number',
         default: 0.02,
         maximum: 1
     },
     clickCountMultiple: {
-        order: 7,
+        order: 8,
         type: 'integer',
         default: 3,
         minimum: 1
     },
     clickSizeMultiple: {
-        order: 8,
+        order: 9,
         type: 'number',
         default: 2,
         minimum: 1
     },
     maxInitialVelocity: {
-        order: 9,
+        order: 10,
         type: 'object',
         properties: {
             x: {
@@ -125,7 +150,7 @@ export let settings = {
         }
     },
     wind: {
-        order: 10,
+        order: 11,
         type: 'object',
         properties: {
             x: {
@@ -140,6 +165,13 @@ export let settings = {
             }
         }
     }
+}
+
+class EventToDraw {
+    onMouseMove: boolean;
+    onMouseClick: boolean;
+    alwaysEmitAtMouse: boolean;
+    onEdit: boolean;
 }
 
 class WhatToDraw {
@@ -169,8 +201,8 @@ class WhatToDraw {
 }
 
 export class Config {
+    eventToDraw = new EventToDraw();
     whatToDraw = new WhatToDraw();
-    alwaysEmit: boolean;
     randomInitialAngle: boolean;
     rotation: number;
     emitEveryTime: number;

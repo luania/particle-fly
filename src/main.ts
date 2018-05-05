@@ -16,6 +16,18 @@ let app: PIXI.Application;
 
 let loadding = false;
 
+let toEmit = (multiple:boolean) => {
+    if (!loadding) {
+        particleSystem.emit(multiple);
+    }
+}
+
+let toEmitAtPosition = (multiple:boolean, x: number, y: number) => {
+    if (!loadding) {
+        particleSystem.emitAtPosition(multiple, x, y);
+    }
+}
+
 let refreshConfig = () => {
     conf.setData(atomApi.config);
     let whatToDraw = conf.whatToDraw;
@@ -58,26 +70,16 @@ function listenEditor(){
         let scrollView = editorElement.querySelector(".scroll-view");
         editor.getBuffer().onDidChangeText((ev:any) => {
             for(let e of ev.changes){
-                let position = e.newRange[e.newText?"end":"start"];
                 let aPos = editorElement.pixelPositionForScreenPosition(
-                    editor.screenPositionForBufferPosition(position)
+                    editor.screenPositionForBufferPosition(e.newRange[e.newText?"end":"start"])
                 );
                 let rect = scrollView.getBoundingClientRect();
-                let left = aPos.left
-                    + rect.left
-                    - editorElement.getScrollLeft();
-                let top = aPos.top
-                    + rect.top
-                    - editorElement.getScrollTop()
-                    + editor.getLineHeightInPixels();
-                particleSystem.originPosition.x = left;
-                particleSystem.originPosition.y = top;
-                if(conf.alwaysEmit){
+                let left = aPos.left + rect.left - editorElement.getScrollLeft();
+                let top = aPos.top + rect.top - editorElement.getScrollTop() + editor.getLineHeightInPixels();
+                if(!conf.eventToDraw.onEdit){
                     return;
                 }
-                if (!loadding) {
-                    particleSystem.emit(false);
-                }
+                toEmitAtPosition(false, left, top);
             }
         });
     }catch(e){
@@ -99,19 +101,18 @@ export function activate(state: any) {
     body.onmousemove = (ev: MouseEvent) => {
         particleSystem.originPosition.x = ev.clientX;
         particleSystem.originPosition.y = ev.clientY;
-        if(conf.alwaysEmit){
+        if(!conf.eventToDraw.onMouseMove || conf.eventToDraw.alwaysEmitAtMouse){
             return;
         }
-        if (!loadding) {
-            particleSystem.emit(false);
-        }
+        toEmit(false);
     };
     body.onmousewheel = body.onmousemove;
     body.onmousedown = (ev: MouseEvent) => {
-        if (!loadding) {
-            particleSystem.emit(true);
+        if(!conf.eventToDraw.onMouseClick){
+            return;
         }
-    };;
+        toEmit(true);
+    };
     body.onmouseup = body.onmousedown;
 
     refreshConfig();
@@ -126,10 +127,8 @@ export function activate(state: any) {
 }
 
 export function run() {
-    if(conf.alwaysEmit){
-        if (!loadding) {
-            particleSystem.emit(true);
-        }
+    if(conf.eventToDraw.alwaysEmitAtMouse){
+        toEmit(false);
     }
     app.renderer.resize(body.clientWidth, body.clientHeight);
     particleSystem.applyForce(conf.wind);

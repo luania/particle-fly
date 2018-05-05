@@ -20,11 +20,15 @@ export class ParticleSystem {
     }
 
     emit(multiple: boolean) {
+        this.emitAtPosition(multiple, this.originPosition.x, this.originPosition.y);
+    }
+
+    emitAtPosition(multiple: boolean, x: number, y: number) {
         let countMultiple = multiple ? this.config.clickCountMultiple : 1;
         this.factory.multiple = multiple;
         for (let i = 0; i < this.config.emitEveryTime * countMultiple; i++) {
             let container = this.factory.create();
-            container.position.set(this.originPosition.x, this.originPosition.y);
+            container.position.set(x, y);
             if(this.config.randomInitialAngle){
                 container.rotation = Math.random() * Math.PI * 2;
             }
@@ -32,7 +36,7 @@ export class ParticleSystem {
 
             let p = new Particle(container);
             p.rotation = this.config.rotation;
-            p.position = PVector.copy(this.originPosition);
+            p.position = new PVector(x, y);
             p.velocity = new PVector(
                 (Math.random() - 0.5) * this.config.maxInitialVelocity.x,
                 (Math.random() - 0.5) * this.config.maxInitialVelocity.y
