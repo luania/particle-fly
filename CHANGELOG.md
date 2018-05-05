@@ -1,3 +1,13 @@
+#### 0.6.0
+- now it emit particles on edit
+
+- add settings
+    + eventToDraw
+        - onMouseMove
+        - onMouseClick
+        - alwaysEmitAtMouse
+        - onEdit
+
 #### 0.5.0
 - add settings
     + starPoints
